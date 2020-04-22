@@ -31,13 +31,15 @@ object Main extends LazyLogging {
 
     // configuration parameters
     val noOfActors = 20
-    val startNoOfDummyDataPerActor = 500 // initial amount of dummy data per actor
     val maxNoOfDummyDataPerActor = 7000 // maximum of dummy data per actor
-    val stepSize = 500 // increase noOfDummyDataPerActor per run by this step size
 
     // run
     run(noOfActors, maxNoOfDummyDataPerActor)
-    //runWithVaryingDummyData(noOfActors, startNoOfDummyDataPerActor, maxNoOfDummyDataPerActor, stepSize)
+
+    // run multiple loops with varying noOfDummyDataPerActor -> actually NOT reveal the issue ...
+    // val startNoOfDummyDataPerActor = 500 // initial amount of dummy data per actor
+    // val stepSize = 500 // increase noOfDummyDataPerActor per run by this step size
+    // runWithVaryingDummyData(noOfActors, startNoOfDummyDataPerActor, maxNoOfDummyDataPerActor, stepSize)
 
   }
 
