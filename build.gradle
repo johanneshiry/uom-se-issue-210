@@ -1,0 +1,71 @@
+plugins {
+    id 'java' // java support
+    id 'scala' // scala support
+}
+
+ext {
+    javaVersion = JavaVersion.VERSION_11
+
+    scalaVersion = '2.13'
+    scalaBinaryVersion = '2.13.1'
+    akkaVersion = '2.6.0'
+    slf4jVersion = '1.7.26'
+    unitsOfMeasurementVersion = '1.0.10'
+
+    scriptsLocation = 'gradle' + File.separator + 'scripts' + File.separator //location of script plugins
+}
+
+apply from: scriptsLocation + 'checkJavaVersion.gradle'
+
+configurations {
+    scalaCompilerPlugin
+}
+
+repositories {
+    jcenter() //searches in bintray's repository 'jCenter', which contains Maven Central
+}
+
+dependencies {
+
+    compile 'javax.measure:unit-api:+'
+    compile 'tec.uom:uom-se:' + unitsOfMeasurementVersion // quantities
+
+    // logging
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"  // slf4j wrapper
+    compile 'com.lmax:disruptor:3.4.2' // async logging
+    compile 'org.apache.logging.log4j:log4j-api:+' // log4j
+    compile 'org.apache.logging.log4j:log4j-core:+' // log4j
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:+' // log4j -> slf4j
+
+    compile "com.typesafe.scala-logging:scala-logging_${scalaVersion}:+" // akka scala logging
+    compile group: 'com.typesafe.scala-logging', name: 'scala-logging-slf4j_2.11', version: '2.1.2'// scala logging
+
+    // CORE Akka //
+    implementation group: 'com.typesafe.akka', name: "akka-actor_${scalaVersion}", version: akkaVersion
+    implementation group: 'com.typesafe.akka', name: "akka-slf4j_${scalaVersion}", version: akkaVersion
+    implementation group: 'com.typesafe.akka', name: "akka-cluster_${scalaVersion}", version: akkaVersion
+    compile group: 'com.lightbend.akka', name: "akka-stream-alpakka-csv_${scalaVersion}", version: '1.1.2'
+    compile group: 'com.typesafe.akka', name: "akka-actor_${scalaVersion}", version: akkaVersion
+
+
+    compile group: 'com.typesafe.akka', name: "akka-cluster-sharding_${scalaVersion}", version: akkaVersion
+    compile group: 'com.typesafe.akka', name: "akka-cluster-tools_${scalaVersion}", version: akkaVersion
+
+    // CORE Scala //
+    compile "org.scala-lang:scala-library:${scalaBinaryVersion}"
+
+}
+
+wrapper {
+    gradleVersion = '6.1'
+}
+
+group 'com.github.johannneshiry'
+version '1.0-SNAPSHOT'
+description 'replication of tec.uom.se issue 210'
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
