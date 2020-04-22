@@ -245,3 +245,7 @@ local.properties
 #.project
 
 .idea/
+
+.build/
+
+.out/
